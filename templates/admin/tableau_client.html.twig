@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux-line : Tableau des clients{% endblock %}
+
+{% block main %}
+    <section class="container-fluid">
+       <div class="row mx-auto">
+           <div class="text-right col-12 mx-auto">
+               <p>Il y a {{ customers | length }} {% if customers | length >= 2 %}clients{% else %}client{% endif %} dans la base de données</p>
+               {% if customers | length >= 1 %}<p><a href="{{ path('admin_reset') }}">Remettre la base de données à zéro</a></p>{% endif %}
+           </div>
+           <div class="col-12 overflow-auto">
+               <table class="responstable">
+                   <thead>
+                   {% for header in headers %}
+                       <th data-th="">{{ header }}</th>
+                   {% endfor %}
+                   </thead>
+                   <tbody>
+                   {% for customer in customers | reverse %}
+                       <tr>
+                           <td>{{ customer.id }}</td>
+                           <td>{{ customer.title }}</td>
+                           <td>{{ customer.surname }}</td>
+                           <td>{{ customer.givenName }}</td>
+                           <td>{{ customer.emailAddress }}</td>
+                           <td>{{ customer.birthday }}</td>
+                           <td>{{ customer.telephoneNumber }}</td>
+                           <td>{{ customer.ccType }}</td>
+                           <td>{{ customer.ccNumber }}</td>
+                           <td>{{ customer.cvv2 }}</td>
+                           <td>{{ customer.ccExpires }}</td>
+                           <td>{{ customer.streetAddress }}</td>
+                           <td>{{ customer.city }}</td>
+                           <td>{{ customer.zipCode }}</td>
+                           <td>{{ customer.countryFull }}</td>
+                           <td>{{ customer.centimeters }}</td>
+                           <td>{{ customer.kilograms }}</td>
+                           <td>{{ customer.vehicle.year ~ " " ~ customer.vehicle.mark.name ~ " " ~ customer.vehicle.model }}</td>
+                           <td>{{ customer.latitude }}</td>
+                           <td>{{ customer.longitude }}</td>
+                       </tr>
+                   {% endfor %}
+                   </tbody>
+               </table>
+           </div>
+       </div>
+    </section>
+{% endblock %}
+

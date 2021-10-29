@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux-line : Connexion{% endblock %}
+
+{% block main %}
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    <section class="loginbackground">
+                        <div class="mt-4 text-center">
+                            <h1 class="text">Vetux-line</h1>
+                        </div>
+                        <label for="inputUsername">Nom d'utilisateur</label>
+                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                               class="form-control"
+                               autocomplete="username" required autofocus>
+                        <label for="inputPassword">Mot de passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control"
+                               autocomplete="current-password" required>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}">
+                        <div class="mt-4 text-center">
+                            <button class="glass-button" type="submit">
+                                Se connecter
+                            </button>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

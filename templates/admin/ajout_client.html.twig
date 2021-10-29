@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux-line : Ajouts des clients{% endblock %}
+
+{% block main %}
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="text-center"><i class="fas fa-users"></i>&nbsp;Ajoutez des utilisateurs à la base de données</h2>
+                <div class="mt-3">
+                    {{ form_start(csvForm) }}
+                    {{ form_row(csvForm.csv) }}
+                    <div class="mt-4 mb-4 text-center">
+                        <button class="btn btn-primary">{{ button_label | default("Ajoutez des utilisateurs") }}</button>
+                    </div>
+                    {{ form_end(csvForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

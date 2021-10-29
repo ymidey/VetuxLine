@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vetux-line : Fusion Csv{% endblock %}
+
+{% block main %}
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <h2 class="mt-n4 mb-4 text-center"><i class="far fa-object-ungroup"></i>&nbsp;Fusion ++</h2>
+                {{ form_start(mergeCsvForm) }}
+                    {{ form_row(mergeCsvForm.type) }}
+                    {{ form_row(mergeCsvForm.csv1) }}
+                    {{ form_row(mergeCsvForm.csv2) }}
+                    <div class="mt-4 text-center">
+                        <button class="btn btn-primary">{{ button_label | default("Télécharger la fusion") }}</button>
+                    </div>
+                {{ form_end(mergeCsvForm) }}
+                <p class="text">Certains clients ne seront pas ajouter dans le nouveau fichier de fusion à cause d'information non valide, pour les retrouvez cliquer <a class="link" href="{{ path("admin_invalid_customers") }}">ici</a>.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
