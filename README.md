@@ -13,7 +13,7 @@ Projet effectué du lundi 11 octobre 2021, au dimanche 31 octobre 2021 par Yanni
 
 Présentation du projet : https://ocapuozzo.github.io/mission-etl-csv/
 
-Dépôt GitHub : //todo
+Dépôt GitHub : https://github.com/ymidey/VetuxLine
 
 # Matériels utilisés
 
@@ -92,7 +92,7 @@ Ce qui est attendu à l’issue de la seconde partie :
 
 ## Installation du projet
 Ouvrer le terminal git bash, et effectuez la commande :
->git clone //todo
+>git clone https://github.com/ymidey/VetuxLine.git
 
 Puis, entrer dans le répertoire du projet avec la commande :
 > cd Vetux-line
