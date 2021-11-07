@@ -37,6 +37,8 @@ Afin d’exploiter ces fichiers partenaires, VETUX-LINE souhaite disposer d’un
 
 Les fichiers communiqués par l'entreprise french-client.csv (3000 clients) et german-client.csv (2000clients) possèdent le meme type et nombre de colonnes
 
+<div style="page-break-after: always"></div>
+
 # Première partie - Fusion ++
 
 ## Fusion :
@@ -66,6 +68,8 @@ La fusion de ces 2 fichiers csv sera effectué par un algorithme séquentiel ou 
 
 ![Screenshot](public/Image/fusion-types.png)
 
+<div style="page-break-after: always"></div>
+
 # Deuxième partie - Etl
 
 L’entreprise VETUX-LINE envisage de se lancer dans des produits en liens avec l’automobile. Le département R&D souhaite disposer d’un modèle de données suivant :
@@ -87,6 +91,8 @@ Ce qui est attendu à l’issue de la seconde partie :
 ##### F/ L’utilisateur pourra être en mesure de renouveler son action avec de nouvelles données ou des données mises à jour. Le chargement de nouvelles données ne devra pas générer de doublons dans la base de données.
 
 ##### G/ Une représentation graphique de données statistiques (répartition des marques parmi les clients) est attendue sur le tiers client. Les données exploitées pour cette représentation seront tirées de la base de donnes. À vous de proposer une vue adaptée pour le service R&D.
+
+<div style="page-break-after: always"></div>
 
 # Installation et configuration
 
@@ -111,6 +117,8 @@ Ensuite pour récupérer toutes les librairies du projet, effectuer les commande
 * Création des différentes tables
 > php bin/console doctrine:migrations:migrate
 
+<div style="page-break-after: always"></div>
+
 ## Création de l'utilisateur 
 
 Grâce au fichier préalablement crée nommé <code>AppFixture</code> situé dans <code>\src\DataFixture</code>.
@@ -133,8 +141,7 @@ class AppFixtures extends Fixture
     # Déclaration des attributs
     private $passwordEncoder;
 
-    # On encode l'attribut passwordEncorder avec un système de hachage provenant
-    # de la classe UserPasswordEncoderInterface de la librairie doctrine
+    # On encode l'attribut passwordEncorder avec un système de hachage 			provenant de la classe UserPasswordEncoderInterface de la librairie doctrine
     public function __construct(UserPasswordEncoderInterface $passwordEncoder){
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -146,7 +153,8 @@ class AppFixtures extends Fixture
         # Appel de la méthode setUsername avec en paramètre la chaine de
         # caractère root de l'objet référencé par user
         $user->setUsername("root");
-        # Appel de la méthode setPassword avec en paramètre l'attribut passwordEncoder et avec comme paramètre la fonction encodePassword($user, "sio"));
+        # Appel de la méthode setPassword avec en paramètre l'attribut passwordEncoder et
+        # avec comme paramètre la fonction encodePassword($user, "sio"));
         $user->setPassword($this->passwordEncoder->encodePassword($user, "sio"));
         # On notifie doctrine avec la méthode persist en lui disant que
         # l'on voudrait ajouter les valeurs que contient la variable $user
@@ -164,6 +172,8 @@ En effectuant la commande :
 
 Un utilisateur qui aura par défaut le login 'root' et le mot de passe 'sio' sera directement créé dans la table admin de la base de données.
 
+<div style="page-break-after: always"></div>
+
 # Première partie - Fusion ++
 
 ## Login 
@@ -175,9 +185,13 @@ D'après le context du projet, l'application devra être protégée. J'ai donc m
 En appuyant sur le bouton "se connecter", on fait appel aux différentes fonctions du fichier <code>LogInFormAuthenticator</code> situé dans le répertoire <code>src\Security</code> qui vont lire les données envoyées dans le formulaire login et qui vont les comparer aux données de la table Admin de la base de données VetuxLine.
 Si la comparaison répond vrai, les données envoyées dans le formulaire sont donc bonne, l'utilisateur sera donc redirigé sur la page 'admin/tableau/client' notre page 'index'. 
 
+<div style="page-break-after: always"></div>
+
 Si la comparaison répond faux, les données envoyées dans le formulaire sont donc mauvaise, l'utilisateur restera sur la page login et il recevra un message flash d'erreur.
 
 ![screenshot](public/Image/loginErreur.PNG)
+
+<div style="page-break-after: always"></div>
 
 ## Fusion
 
@@ -287,32 +301,30 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
             # On récupère dans la variable $csv2Data les données envoyées dans la valeur post csv2
             $csv2Data = $csvMergeForm['csv2']->getData();
 
-            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la variable $csv1data
-            # n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé dans la classe Csv
+            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la 			# variable $csv1data n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé 			 # dans la classe Csv
             if (!Csv::isValidCsvHeader(Csv::getCsvHeader($csv1Data))) {
                 # Si l'en-tête de $csv1Data n'est bien pas égal à l'en-tete de getSpecificColumn, on renvoie
                 # un message flash à l'utilisateur
-                $this->addFlash("error", "Le fichier Csv 1 ne contient pas toutes les colonnes nécessaire à la fusion");
+                $this->addFlash("error", "Le fichier Csv 1 ne contient pas toutes les colonnes nécessaire à 				la fusion");
                 # Puis, on le redirige à la route 'admin_merge'
                 $this->redirectToRoute("admin_merge");
             }
 
-            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la variable $csv2Data
-            # n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé dans la classe Csv
+            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la 			# variable $csv2Data n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé             # dans la classe Csv
             if (!Csv::isValidCsvHeader(Csv::getCsvHeader($csv2Data))) {
                 # Si l'en-tête de $csv1Data n'est bien pas égal à l'en-tete de getSpecificColumn, on renvoie
                 # un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Le fichier Csv 2 ne contient pas toutes les colonnes nécessaire à la fusion");
+                $this->addFlash("error", "Le fichier Csv 2 ne contient pas toutes les colonnes nécessaire à 				la fusion");
                 # Puis, on le redirige à la route 'admin_merge'
                 $this->redirectToRoute("admin_merge");
             }
 
-            # On appelle le constructeur Merge (App\Service\Merge) en lui donnant comme paramètre $csv1Data et $csv2Data
+            # On appelle le constructeur Merge (App\Service\Merge) en lui donnant comme paramètre $csv1Data 			# et $csv2Data
             $merge = new Merge($csv1Data, $csv2Data);
 
             # On vérifie si la valeur envoyé en post nommé type est égal à "Séquentiel"
             if ($csvMergeForm["type"]->getData() == "Séquentiel") {
-                # Si c'est le cas, dans la variable $fusionSequenciel, on appelle la fonction sequential située dans la classe Service\Merge avec comme paramètre $merge
+                # Si c'est le cas, dans la variable $fusionSequenciel, on appelle la fonction sequential 					# située dans la classe Service\Merge avec comme paramètre $merge
                 $fusionSequenciel = $merge->sequential();
                 # On vérifie que la variable $fusionSequenciel n'est pas vide
                 if ($fusionSequenciel) {
@@ -321,9 +333,9 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
                     # en fichier Csv
                     $merge->downloadCsv();
                 } else {
-                    # Si, la variable $fusionSequenciel est vide, ce qui veut dire qu'aucun client a été ajouté au fichier final
+                # Si, la variable $fusionSequenciel est vide, ce qui veut dire qu'aucun client a été ajouté                 # au fichier final
                     # on renvoie un message flash de type erreur à l'utilisateur
-                    $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des clients étaient vides ou contenaient des données invalides");
+                    $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des 					clients étaient vides ou contenaient des données invalides");
                     # Puis, on le redirige à la route 'admin_merge'
                     $this->redirectToRoute("admin_merge");
                 }
@@ -331,7 +343,7 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
 
             # On vérifie si la valeur envoyé en post nommé type est égal à "Séquentiel"
             if ($csvMergeForm["type"]->getData() == "Entrelacé") {
-                # Si c'est le cas, dans la variable $fusionEntrelace, on appelle la fonction interlaced situé dans la classe Service\Merge avec comme paramètre $merge
+                # Si c'est le cas, dans la variable $fusionEntrelace, on appelle la fonction interlaced 					# situé dans la classe Service\Merge avec comme paramètre $merge
                 $fusionEntrelace = $merge->interlaced();
                 # On vérifie que la variable $fusionSequenciel n'est pas vide
                 if ($fusionEntrelace) {
@@ -340,9 +352,8 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
                     # en fichier Csv
                     $merge->downloadCsv();
                 } else {
-                    # Si, la variable $fusionSequenciel est vide, ce qui veut dire qu'aucun client a été ajouté au fichier final
-                    # on renvoie un message flash de type erreur à l'utilisateur
-                    $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des clients étaient vides ou contenaient des données invalides");
+                    # Si, la variable $fusionSequenciel est vide, ce qui veut dire qu'aucun client a été 						# ajouté au fichier final on renvoie un message flash de type erreur à l'utilisateur
+                    $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des 					clients étaient vides ou contenaient des données invalides");
                     # Puis, on le redirige à la route 'admin_merge'
                     $this->redirectToRoute("admin_merge");
                 }
@@ -364,17 +375,16 @@ Nous allons d'abord vérifier que les deux fichiers envoyés par l'utilisateur p
 if (!Csv::isValidCsvHeader(Csv::getCsvHeader($csv1Data))) {
                 # Si l'en-tête de $csv1Data n'est bien pas égal à l'en-tete de getSpecificColumn, on renvoie
                 # un message flash à l'utilisateur
-                $this->addFlash("error", "Le fichier Csv 1 ne contient pas toutes les colonnes nécessaire à la fusion");
+                $this->addFlash("error", "Le fichier Csv 1 ne contient pas toutes les colonnes nécessaire à 				la fusion");
                 # Puis, on le redirige à la route 'admin_merge'
                 $this->redirectToRoute("admin_merge");
             }
 
-            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la variable $csv2Data
-            # n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé dans la classe Csv
+            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la  			 # variable $csv2Data n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé 			  # dans la classe Csv
             if (!Csv::isValidCsvHeader(Csv::getCsvHeader($csv2Data))) {
                 # Si l'en-tête de $csv1Data n'est bien pas égal à l'en-tete de getSpecificColumn, on renvoie
                 # un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Le fichier Csv 2 ne contient pas toutes les colonnes nécessaire à la fusion");
+                $this->addFlash("error", "Le fichier Csv 2 ne contient pas toutes les colonnes nécessaire à 				la fusion");
                 # Puis, on le redirige à la route 'admin_merge'
                 $this->redirectToRoute("admin_merge");
             }
@@ -383,21 +393,20 @@ if (!Csv::isValidCsvHeader(Csv::getCsvHeader($csv1Data))) {
 Méthode <code>isValidCsvHeader</code> :
 
 ````php 
-/**
+	/**
      * @param $uploadedCsvHeader
      * @return bool Vrai (true) si le header du Csv est valide sinon Faux (false)
      */
     public static function isValidCsvHeader($uploadedCsvHeader): bool
     {
-        # Déclaration de l'attribut $uploadedCsvHeader avec comme argument la valeur de retour de array_map avec comme paramètre $uploadedCsvHeader
+        # Déclaration de l'attribut $uploadedCsvHeader avec comme argument la valeur de retour de array_map 		# avec comme paramètre $uploadedCsvHeader
         $uploadedCsvHeader = array_map('strtolower', $uploadedCsvHeader);
         $i = 0;
-        # Déclaration de l'attribut $csvColums avec comme argument la valeur de retour de array_map avec comme paramètre le retour de
-        # la fonction getSpecificColums de la classe Csv
+        # Déclaration de l'attribut $csvColums avec comme argument la valeur de retour de array_map avec 			# comme paramètre le retour de la fonction getSpecificColums de la classe Csv
         $csvColumns = array_map('strtolower', Csv::getSpecificColumns());
         # On lit chaque valeur du tableau $uploadedCsvHeader
         foreach ($uploadedCsvHeader as $value) {
-            # Si la valeur lut correspond à la valeur située dans le tableau $csvColums on ajoute +1 à la variable $i
+            # Si la valeur lut correspond à la valeur située dans le tableau $csvColums on ajoute +1 à la 				# variable $i
             if (in_array($value, $csvColumns)) {
                 $i++;
             }
@@ -417,25 +426,26 @@ Méthode <code>getSpecificColums</Code> :
      */
     public static function getSpecificColumns(): array
     {
-        return ['Gender', 'Title', 'Surname', 'GivenName', 'EmailAddress', 'Birthday', 'TelephoneNumber', 'CCType', 'CCNumber', 'CVV2', 'CCExpires', 'StreetAddress', 'City', 'ZipCode', 'CountryFull', 'Centimeters', 'Kilograms', 'Vehicle', 'Latitude', 'Longitude'];
+        return ['Gender', 'Title', 'Surname', 'GivenName', 'EmailAddress', 'Birthday', 'TelephoneNumber', 			'CCType', 'CCNumber', 'CVV2', 'CCExpires', 'StreetAddress', 'City', 'ZipCode', 'CountryFull', 				'Centimeters', 'Kilograms', 'Vehicle', 'Latitude', 'Longitude'];
     }
 ````
 
 
 Si les deux fichiers csv envoyé par l'utilisateur possèdent bien les colonnes nécessaires à la fusion, nous allons ensuite selon le type de tri sélectionné par l'utilisateur, appeler avec la variable <code>$merge</code> soit la méthode <code>sequential</code> si le choix du tri est séquentiel ou soit la méthode <code>interlaced</code> si le choix du tri est entrelacé, situé dans la classe Merge (<code>src\Service\Merge</code>)
 
+<div style="page-break-after: always"></div>
+
 Si le choix est séquentiel, la méthode<code>séquential</code> est appelé :
+
 ````php
     /**
      * @return bool
      */
     public function sequential(): bool
     {
-        # On appelle la fonction insertIntoCsvForSequential en passent comme argument csv1 transformé en tableau grâce à la fonction
-        # getRecords de la librairie PHP-League/CSV
+        # On appelle la fonction insertIntoCsvForSequential en passent comme argument csv1 transformé en 			# tableau grâce à la fonction getRecords de la librairie PHP-League/CSV
         $this->insertIntoCsvForSequential($this->csv1->getRecords());
-        # On appelle la fonction insertIntoCsvForSequential en passent comme argument csv2 transformé en tableau grâce à la fonction
-        # getRecords de la librairie PHP-League/CSV
+        # On appelle la fonction insertIntoCsvForSequential en passent comme argument csv2 transformé en 			# tableau grâce à la fonction getRecords de la librairie PHP-League/CSV
         $this->insertIntoCsvForSequential($this->csv2->getRecords());
         # On retourne un booléen, true si au moins un client a été ajouté, false si aucun n'a été ajouté
         return $this->clientAjouter === 1;
@@ -462,10 +472,9 @@ private function insertIntoCsvForSequential($csvData)
                 $content[] = $data[$column];
             }
 
-            # On vérifie si le client est adulte avec la fonction estAdulte, s'il a une taille valide avec la fonction aUneTailleValide
-            # et si le code de sa carte de crédit est unique avec la fonction getDuplicateValueInArray
-            if (Verification::estAdulte($data["birthday"]) && Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) && !in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
-                # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au fichier de fusion mergeCsv
+            # On vérifie si le client est adulte avec la fonction estAdulte, s'il a une taille valide avec 				# la fonction aUneTailleValide et si le code de sa carte de crédit est unique avec la fonction 				# getDuplicateValueInArray
+            if (Verification::estAdulte($data["birthday"]) &&  															Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) && 								!in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
+                # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne de 				# la librairie PHP-League/CSV au fichier de fusion mergeCsv
                 $this->mergeCsv->insertOne($content);
                 # Un client est ajouté, la valeur de l'attribut clientAjouter passe donc a 1
                 $this->clientAjouter = 1;
@@ -503,13 +512,12 @@ Si le choix est entrelacé, la fonction <code>interlaced</code> est appelé :
                 foreach ($this->columns as $column) {
                     # On change chaque clé de la ligne x (valeur $csv1Index) du tableau csv1 en minuscule
                     $data = array_change_key_case($this->csv1->fetchOne($csv1Index), CASE_LOWER);
-                    # Chaque valeur lut avec la clé "column" du tableau $data est ajouté dans le tableau $content
+                    # Chaque valeur lut avec la clé "column" du tableau $data est ajouté dans le tableau 						# $content
                     $content[] = $data[$column];
                 }
-                # On vérifie si le client est adulte avec la fonction estAdulte, s'il a une taille valide avec la fonction aUneTailleValide
-                # et si le code de sa carte de crédit est unique avec la fonction getDuplicateValueInArray
-                if (Verification::estAdulte($data["birthday"]) && Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) && !in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
-                    # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au tableau $content
+                # On vérifie si le client est adulte avec la fonction estAdulte, s'il a une taille valide 					# avec la fonction aUneTailleValide et si le code de sa carte de crédit est unique avec la 					# fonction getDuplicateValueInArray
+                if (Verification::estAdulte($data["birthday"]) && 															Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) && 								!in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
+                    # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne 					 # de la librairie PHP-League/CSV au tableau $content
                     $this->mergeCsv->insertOne($content);
                     # Un client est ajouté, la valeur de la variable $customerIsInserted passe donc en true
                     $customerIsInserted = true;
@@ -519,7 +527,7 @@ Si le choix est entrelacé, la fonction <code>interlaced</code> est appelé :
                 # On post-incrémente la variable $csv1Index
                 $csv1Index++;
             }
-            # On remet la variable $customerIsInserted à false pour vérifier si un client du fichier csv2 a été ajouté au fichier final
+            # On remet la variable $customerIsInserted à false pour vérifier si un client du fichier csv2 a 			# été ajouté au fichier final
             $customerIsInserted = false;
             # Boucle while qui se lancera tant que la variable $customerIsInserted sera égal à false
             # et que la variable $csv1Index sera inférieur au nombre de données dans le tableau csv2
@@ -530,13 +538,12 @@ Si le choix est entrelacé, la fonction <code>interlaced</code> est appelé :
                 foreach ($this->columns as $column) {
                     # On change chaque clé de la ligne x (valeur $csv2Index) du tableau csv2 en minuscule
                     $data = array_change_key_case($this->csv2->fetchOne($csv2Index), CASE_LOWER);
-                    # Chaque valeur lut avec la clé "column" du tableau $data est ajouté dans le tableau $content
+                    # Chaque valeur lut avec la clé "column" du tableau $data est ajouté dans le tableau 						# $content
                     $content[] = $data[$column];
                 }
-                # On vérifie si le client est adulte avec la fonction estAdulte, s'il a une taille valide avec la fonction aUneTailleValide
-                # et si le code de sa carte de crédit est unique avec la fonction getDuplicateValueInArray
-                if (Verification::estAdulte($data["birthday"]) &&  Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) && !in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
-                    # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au tableau $content
+                # On vérifie si le client est adulte avec la fonction estAdulte, s'il a une taille valide 					# avec la fonction aUneTailleValide et si le code de sa carte de crédit est unique avec la 					# fonction getDuplicateValueInArray
+                if (Verification::estAdulte($data["birthday"]) &&  															Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) && 								!in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
+                    # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne 					 # de la librairie PHP-League/CSV au tableau $content
                     $this->mergeCsv->insertOne($content);
                     # Un client est ajouté, la valeur de la variable $customerIsInserted passe donc en true
                     $customerIsInserted = true;
@@ -559,19 +566,19 @@ Afin de faire les vérifications nécessaires pour supprimer les clients invalid
 <code>estAdulte</code> situé dans la classe <code>Verification</code> (<code>/src/Service/Verification.php</code>). Elle aura pour but de vérifier que le client est majeure en utilisant une soustraction de date.
 
 ````php 
-/**
+	/**
      * @param $dateCli
      * @return bool
      */
     public static function estAdulte($dateCli): bool
     {
-        # Déclaration de la variable $dateClient avec comme valeur le retour du constructeur DateTime avec comme paramètre $dateCli
+        # Déclaration de la variable $dateClient avec comme valeur le retour du constructeur DateTime avec 			# comme paramètre $dateCli
         $dateClient = new \DateTime($dateCli);
-        # Déclaration de la variable $today avec comme valeur le retour du constructeur DateTime avec comme paramètre 'now'
+        # Déclaration de la variable $today avec comme valeur le retour du constructeur DateTime avec comme 		# paramètre 'now'
         $today = new \DateTime('now');
-        # Déclaration de la variable $diff avec comme valeur le retour de la fonction DateTime::diff avec comme paramètre la variable $today et $dateClient
+        # Déclaration de la variable $diff avec comme valeur le retour de la fonction DateTime::diff avec 			# comme paramètre la variable $today et $dateClient
         $diff = $today->diff($dateClient);
-        # On transforme la valeur contenue dans la variable $diff en âge puis, on la donne comme argument à la variable $age
+        # On transforme la valeur contenue dans la variable $diff en âge puis, on la donne comme argument à 		# la variable $age
         $age = $diff->y;
         # On vérifie si la valeur contenue dans la variable $age est supérieur ou égal à 18
         if ($age >= 18) {
@@ -586,16 +593,16 @@ Afin de faire les vérifications nécessaires pour supprimer les clients invalid
 <code>aUneTailleValide</code> situé dans la classe <code>Verification</code> (<code>/src/Service/Verification.php</code>). Elle aura pour but de vérifier que le client possède une taille en cm et une taille en feetinch identique.
 
 ````php 
-/**
+	/**
      * @param $inch
      * @param $cm
      * @return bool
      */
     public static function aUneTailleValide($inch, $cm): bool
     {
-        # Déclaration de la variable $inches avec comme valeur le retour du calcul (donnée dans la variable $cm / 2.54)
+        # Déclaration de la variable $inches avec comme valeur le retour du calcul (donnée dans la variable 		# $cm / 2.54)
         $inches = $cm / 2.54;
-        # Déclaration de la variable $feet avec comme valeur le retour du calcul (donnée dans la variable $inches / 12) arrondie à une valeur numérique entière
+        # Déclaration de la variable $feet avec comme valeur le retour du calcul (donnée dans la variable 			# $inches / 12) arrondie à une valeur numérique entière
         $feet = intval($inches / 12);
         $inches = $inches % 12;
         return sprintf("%d" . "' " . "%d" . '"', $feet, $inches) === $inch;
@@ -605,7 +612,7 @@ Afin de faire les vérifications nécessaires pour supprimer les clients invalid
 <code>getDuplicateValueInArray</code> situé dans la classe <code>Csv</code> (<code>/src/Service/Csv.php</code>). Elle aura pour but de renvoyer un tableau avec uniquement les valeurs trouvées en double.
 
 ````php 
-/**
+	/**
      * @param $array
      * @return array $rValue
      */
@@ -656,13 +663,14 @@ En contrepartie, si l'instruction conditionnel 'if' renvoi false, ce qui veut di
 
 ````php
 } else {
-                    # Si, la variable $fusionSequenciel est vide, ce qui veut dire qu'aucun client a été ajouté au fichier final
-                    # on renvoie un message flash de type erreur à l'utilisateur
-                    $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des clients étaient vides ou contenaient des données invalides");
-                    # Puis, on le redirige à la route 'admin_merge'
-                    $this->redirectToRoute("admin_merge");
-                }
+    # Si, la variable $fusionSequenciel est vide, ce qui veut dire qu'aucun client a été ajouté au fichier 		# final on renvoie un message flash de type erreur à l'utilisateur
+	$this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des clients étaient 	vides ou contenaient des données invalides");
+    # Puis, on le redirige à la route 'admin_merge'
+    $this->redirectToRoute("admin_merge");
+}
 ````
+
+<div style="page-break-after: always"></div>
 
 ## Fusion invalide
 
@@ -700,8 +708,8 @@ class InvalidCsvForm extends AbstractType
                 'choices' => [
                     'Tout les clients invalides' => "allClient",
                     'Client non majeur' => "notMajor",
-                    'Client avec un taille en inch et une taille en cm qui ne correspondent pas ' => "invalidSize",
-                    'Client avec un code de carte de crédit en doublon avec un autre client' => "invalidCcNumber",
+                    'Client avec un taille en inch et une taille en cm qui ne correspondent pas ' => 							"invalidSize",
+                    'Client avec un code de carte de crédit en doublon avec un autre client' => 								"invalidCcNumber",
                 ]
             ])
             ->add('csv', FileType::class, [
@@ -733,7 +741,7 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
 
 /!\ De nombreuses informations sont données dans les commentaires du code, pour une meilleure compréhension, il est recommandé de les lires. /!\
 ````php 
-/**
+	/**
      * @Route("invalide/client", name="invalid_customers")
      */
     public function invalidCustomers(Request $request)
@@ -749,20 +757,20 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
             # On récupère dans la variable $csvData les données envoyées dans la valeur post csv
             $csvData = $csvForm['csv']->getData();
 
-            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la variable $csv1data
+            # On vérifie avec la variable isValidCsvHeader de la classe Csv, si l'en-tête des données de la 			# variable $csv1data
             # n'est pas égal à l'en-tête du retour de la fonction getSpecificColumn situé dans la classe Csv
             if (!Csv::isValidCsvHeader(Reader::createFromPath($csvData)->setHeaderOffset(0)->getHeader())) {
                 # Si l'en-tête de $csv1Data n'est bien pas égal à l'en-tete de getSpecificColumn, on renvoie
                 # un message flash à l'utilisateur
-                $this->addFlash("error", "Le fichier Csv ne contient pas les colonnes nécessaire à la fusion");
+                $this->addFlash("error", "Le fichier Csv ne contient pas les colonnes nécessaire à la 						fusion");
                 # Puis, on le redirige à la route 'admin_merge'
                 $this->redirectToRoute("admin_invalid_customers");
             }
 
-            # On appelle le constructeur Invalid (App\Service\Invalid) en lui donnant comme paramètre $csvData et $type
+            # On appelle le constructeur Invalid (App\Service\Invalid) en lui donnant comme paramètre 					# $csvData et $type
             $invalidMerge = new Invalid($csvData, $type);
 
-            # Dans la variable $fusionInvalide, on appelle la fonction fusion située dans la classe Service\Invalid
+            # Dans la variable $fusionInvalide, on appelle la fonction fusion située dans la classe 					# Service\Invalid
             $fusionInvalide = $invalidMerge->fusion();
             # On vérifie que la variable $fusionInvalide n'est pas vide
             if ($fusionInvalide) {
@@ -771,9 +779,8 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
                 # en fichier Csv
                 $invalidMerge->downloadCsv();
             } else {
-                # Si, la variable $fusionInvalide est vide, ce qui veut dire qu'aucun client a été ajouté au fichier final
-                # on renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des clients étaient vides ou contenaient uniquement des données valides ou des données invalides d'un autre type");
+                # Si, la variable $fusionInvalide est vide, ce qui veut dire qu'aucun client a été ajouté au 				 # fichier final on renvoie un message flash de type erreur à l'utilisateur
+                $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des 					clients étaient vides ou contenaient uniquement des données valides ou des données invalides 				 d'un autre type");
                 # Puis, on le redirige à la route 'admin_invalid_customers'
                 $this->redirectToRoute("admin_invalid_customers");
             }
@@ -786,13 +793,14 @@ Suite à l'envoi du formulaire par le client, Le contrôleur
 ````
 Dans la variable <code>$invalidMerge</code> nous allons appeler le constructeur <code>Invalid</code> de la classe <code>Invalid</code> (<code>src\Service\Invalid</code>), en lui donnant comme paramètre les données du fichier csv (variable <code>$csvData</code>) et les données du choix du tri (variable <code>$type</code>).
 
+<div style="page-break-after: always"></div>
+
 Ensuite, nous allons appeler ma méthode <code>fusion</code> en lui donnant comme paramètre la variable <code>$invalidMerge</code>
 
 ````php 
 public function fusion(): bool
     {
-        # On appelle la fonction insertIntoCsvForSequential en passent comme argument csv transformé en tableau grâce à la fonction
-        # getRecords de la librairie PHP-League/CSV
+        # On appelle la fonction insertIntoCsvForSequential en passent comme argument csv transformé en 			# tableau grâce à la fonction getRecords de la librairie PHP-League/CSV
         $this->insertIntoCsv($this->csv->getRecords());
         # On retourne un booléen, true si au moins un client a été ajouté, false si aucun n'a été ajouté
         return $this->clientAjouter === 1;
@@ -804,7 +812,7 @@ Méthode <code>insertIntoCsv</code> :
 
 /!\ De nombreuses informations sont données dans les commentaires du code, pour une meilleure compréhension, il est recommandé de les lires /!\
 ````php 
-/**
+	/**
      * @param $csvData
      */
     private function insertIntoCsv($csvData)
@@ -821,10 +829,9 @@ Méthode <code>insertIntoCsv</code> :
             }
             # On vérifie si la valeur de l'attribut type est égal à 'allClient'
             if ($this->type == "allClient") {
-                # On vérifie si le client n'est pas adulte avec la fonction estAdulte, s'il n'a pas une taille valide avec la fonction aUneTailleValide
-                # et si le code de sa carte de crédit est en doublon avec un autre client avec la fonction getDuplicateValueInArray
-                if (!Verification::estAdulte($data["birthday"])|| !Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) || in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
-                    # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au fichier de fusion mergeCsv
+                # On vérifie si le client n'est pas adulte avec la fonction estAdulte, s'il n'a pas une 					# taille valide avec la fonction aUneTailleValide et si le code de sa carte de crédit est en 				 # doublon avec un autre client avec la fonction getDuplicateValueInArray
+                if (!Verification::estAdulte($data["birthday"])|| 															!Verification::aUneTailleValide($data["feetinches"], $data["centimeters"]) || 								in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
+                    # Si le client, réussi à passer tous ses tests, il est ajouté avec la fonction insertOne 					 # de la librairie PHP-League/CSV au fichier de fusion mergeCsv
                     $this->mergeCsvInvalide->insertOne($content);
                     # Un client est ajouté, la valeur de l'attribut clientAjouter passe donc a 1
                     $this->clientAjouter = 1;
@@ -832,9 +839,9 @@ Méthode <code>insertIntoCsv</code> :
             }
             # On vérifie si la valeur de l'attribut type est égal à 'notMajor'
             elseif ($this->type == "notMajor") {
-                # On vérifie si le client n'est pas adulte avec la fonction estAdulte provenant de la classe Verification
+                # On vérifie si le client n'est pas adulte avec la fonction estAdulte provenant de la classe 				 # Verification
                 if (!Verification::estAdulte($data["birthday"])) {
-                    # Si le client, réussi à passer le test, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au fichier de fusion mergeCsv
+                    # Si le client, réussi à passer le test, il est ajouté avec la fonction insertOne de la 					# librairie PHP-League/CSV au fichier de fusion mergeCsv
                     $this->mergeCsvInvalide->insertOne($content);
                     # Un client est ajouté, la valeur de l'attribut clientAjouter passe donc a 1
                     $this->clientAjouter = 1;
@@ -842,9 +849,9 @@ Méthode <code>insertIntoCsv</code> :
             }
             # On vérifie si la valeur de l'attribut type est égal à 'invalidSize'
             elseif ($this->type == "invalidSize") {
-                # On vérifie si le client possède bien une taille en cm et en feetinch invalide avec la fonction aUneTailleValide provenant de la classe Verification
+                # On vérifie si le client possède bien une taille en cm et en feetinch invalide avec la 					# fonction aUneTailleValide provenant de la classe Verification
                 if (!Verification::aUneTailleValide($data["feetinches"], $data["centimeters"])) {
-                    # Si le client, réussi à passer le test, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au fichier de fusion mergeCsv
+                    # Si le client, réussi à passer le test, il est ajouté avec la fonction insertOne de la 					# librairie PHP-League/CSV au fichier de fusion mergeCsv
                     $this->mergeCsvInvalide->insertOne($content);
                     # Un client est ajouté, la valeur de l'attribut clientAjouter passe donc a 1
                     $this->clientAjouter = 1;
@@ -852,9 +859,9 @@ Méthode <code>insertIntoCsv</code> :
             }
             # On vérifie si la valeur de l'attribut type est égal à 'invalidCcNumber'
             elseif ($this->type == "invalidCcNumber") {
-                # On vérifie si le client possède un code de carte de crédit en doublon avec un autre client avec la fonction getDuplicateValueInArray provenant de la classe Csv
+                # On vérifie si le client possède un code de carte de crédit en doublon avec un autre client 				 # avec la fonction getDuplicateValueInArray provenant de la classe Csv
                 if (in_array($data["ccnumber"], Csv::getDuplicateValueInArray($this->arrayOfCsvCcNumber))) {
-                    # Si le client, réussi à passer le test, il est ajouté avec la fonction insertOne de la librairie PHP-League/CSV au fichier de fusion mergeCsv
+                    # Si le client, réussi à passer le test, il est ajouté avec la fonction insertOne de la 					# librairie PHP-League/CSV au fichier de fusion mergeCsv
                     $this->mergeCsvInvalide->insertOne($content);
                     # Un client est ajouté, la valeur de l'attribut clientAjouter passe donc a 1
                     $this->clientAjouter = 1;
@@ -879,13 +886,15 @@ if ($fusionInvalide) {
                 # en fichier Csv
                 $invalidMerge->downloadCsv();
             } else {
-                # Si, la variable $fusionInvalide est vide, ce qui veut dire qu'aucun client a été ajouté au fichier final
+                # Si, la variable $fusionInvalide est vide, ce qui veut dire qu'aucun client a été ajouté au 				 # fichier final
                 # on renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des clients étaient vides ou contenaient uniquement des données valides ou des données invalides d'un autre type");
+                $this->addFlash("error", "La fusion des fichiers n'a pas abouti, toutes les données des 					clients étaient vides ou contenaient uniquement des données valides ou des données invalides 				 d'un autre type");
                 # Puis, on le redirige à la route 'admin_invalid_customers'
                 $this->redirectToRoute("admin_invalid_customers");
             }
 ````
+
+<div style="page-break-after: always"></div>
 
 ## Test
 
@@ -932,7 +941,7 @@ class CsvTest extends TestCase
         $this->assertNotEquals($columns[7], "Je suis une colonne");
     }
 
-    # fonction pour tester le bon retour des valeurs de la fonction getSpecificColums situé dans la classe Csv mais en fonction de la clé
+    # fonction pour tester le bon retour des valeurs de la fonction getSpecificColums situé dans la classe 		# Csv mais en fonction de la clé
     public function testArrayKeyExist()
     {
         # On instancie les données de la fonction getSpecificColums dans une variable nommé colums
@@ -945,10 +954,10 @@ class CsvTest extends TestCase
         $this->assertArrayNotHasKey("une clé invalide", $columns);
     }
 
-    # fonction de test afin de tester le retour de la fonction getCsvHeader avec les données de frenchDataCsv situé dans la classe Csv
+    # fonction de test afin de tester le retour de la fonction getCsvHeader avec les données de 				# frenchDataCsv situé dans la classe Csv
     public function testGetCsvHeader()
     {
-        # On instancie les données de la fonction getCsvHeader avec comme paramètre frenchDataCsv dans une variable nommé csvHeader
+        # On instancie les données de la fonction getCsvHeader avec comme paramètre frenchDataCsv dans une 			# variable nommé csvHeader
         $csvHeader = Csv::getCsvHeader($this->frenchDataCsv);
         # Bonne valeur
         $this->assertEquals($csvHeader[0], "Number");
@@ -956,23 +965,23 @@ class CsvTest extends TestCase
         $this->assertNotEquals($csvHeader[2], "CcNumber");
     }
 
-    # fonction de test afin de tester le retour de la fonction getCsvHeader avec les valeurs de germanDataCsv situé dans la classe Csv
+    # fonction de test afin de tester le retour de la fonction getCsvHeader avec les valeurs de 				# germanDataCsv situé dans la classe Csv
     public function testIsValidCsvHeader()
     {
-        # On instancie les données de la fonction getCsvHeader avec comme paramètre germanDataCsv dans une variable nommé csvHeader
+        # On instancie les données de la fonction getCsvHeader avec comme paramètre germanDataCsv dans une 			# variable nommé csvHeader
         $csvHeader = Csv::getCsvHeader($this->germanDataCsv);
         $this->assertTrue(Csv::isValidCsvHeader($csvHeader));
-        # On instancie les données de la fonction getCsvHeader avec comme paramètre invalidHeader dans une variable nommé csvHeader
+        # On instancie les données de la fonction getCsvHeader avec comme paramètre invalidHeader dans une 			# variable nommé csvHeader
         $csvHeader = Csv::getCsvHeader($this->invalidHeader);
         $this->assertFalse(Csv::isValidCsvHeader($csvHeader));
     }
 
-    # fonction de test afin de tester le bon retour de la fonction getArrayOfCsvCcNumber situé dans la classe Csv
+    # fonction de test afin de tester le bon retour de la fonction getArrayOfCsvCcNumber situé dans la 			# classe Csv
     public function testGetArrayOfCsvCcNumber()
     {
-        # On instancie les données du constructeur merge avec comme paramètre germanDataCsv et frenchDataCsv dans une variable nommé merge
+        # On instancie les données du constructeur merge avec comme paramètre germanDataCsv et frenchDataCsv 		 # dans une variable nommé merge
         $merge = new Merge($this->frenchDataCsv, $this->germanDataCsv);
-        # On instancie les données de la fonction getArrayOfCsvCcNumber avec comme paramètre la valeur csv1 du constructeur merge dans une variable nommé arrayOfCsvCcNumber
+        # On instancie les données de la fonction getArrayOfCsvCcNumber avec comme paramètre la valeur csv1  		 # du constructeur merge dans une variable nommé arrayOfCsvCcNumber
         $arrayOfCsvCcNumber = Csv::getArrayOfCsvCcNumber($merge->getCsv1()->getRecords());
         # Teste avec les valeurs d'un seul fichier Csv dans un tableau
         # Bonne valeur
@@ -985,7 +994,7 @@ class CsvTest extends TestCase
         $this->assertNotEquals($arrayOfCsvCcNumber[3], 4532650833359235);
 
         # Teste avec les valeurs de deux fichiers Csv dans un tableau
-        $arrayOfCsvCcNumber = Csv::getArrayOfCsvCcNumber2Csv($merge->getCsv1()->getRecords(), $merge->getCsv2()->getRecords());
+        $arrayOfCsvCcNumber = Csv::getArrayOfCsvCcNumber2Csv($merge->getCsv1()->getRecords(), $merge-				>getCsv2()->getRecords());
         # Bonne valeur
         $this->assertEquals($arrayOfCsvCcNumber[0], 4532650833355085);
         $this->assertEquals($arrayOfCsvCcNumber[11], 5551781297657261);
@@ -997,7 +1006,7 @@ class CsvTest extends TestCase
         $this->assertNotEquals($arrayOfCsvCcNumber[17], 4854650833855085);
     }
 
-    # fonction de test afin de tester le bon retour de la fonction getDuplicateValueInArray situé dans la classe Csv
+    # fonction de test afin de tester le bon retour de la fonction getDuplicateValueInArray situé dans la 		# classe Csv
     public function testDuplicateValueInArray()
     {
         // Tableau avec des duplications de valeurs (valeur 1 et 2)
@@ -1015,6 +1024,8 @@ Résultat des tests :
 
 ![screenshot](public/Image/Resultat-testCsvTest.PNG)
 
+<div style="page-break-after: always"></div>
+
 Fonction <code>VerificationTest</code> :
 
 ````php 
@@ -1028,7 +1039,7 @@ use PHPUnit\Framework\TestCase;
 class VerificationTest extends TestCase
 {
 
-    # fonction de test afin de tester le bon retour de la fonction estAdulte situé dans la classe Verification
+    # fonction de test afin de tester le bon retour de la fonction estAdulte situé dans la classe 				# Verification
     public function testEstAdulte()
     {
         # format de date (mois/jours/année)
@@ -1061,6 +1072,8 @@ class VerificationTest extends TestCase
 Résultat des tests : 
 
 ![screenshot](public/Image/Resultat-testVerificationTest.PNG)
+
+<div style="page-break-after: always"></div>
 
 # Seconde partie - Etl
 
@@ -1189,6 +1202,8 @@ Entité <code>Mark</code> :
     }
 }
 ````
+<div style="page-break-after: always"></div>
+
 ## Fonction Etl
 
 ![screenshot](public/Image/AjoutClientEtl.PNG)
@@ -1246,7 +1261,7 @@ Suite à l'envoi du formulaire par le client, Le contrôleur <code>IndexControll
 
 /!\ De nombreuses informations sont données dans les commentaires du code, pour une meilleure compréhension, il est recommandé de les lires /!\
 ````php 
-/**
+	/**
      * @Route("ajout/client", name="add_customers")
      */
     public function addCustomers(Request $request)
@@ -1261,39 +1276,38 @@ Suite à l'envoi du formulaire par le client, Le contrôleur <code>IndexControll
             # grâce à la fonction Reader ainsi que setHeaderOffset de la librairie PHP-League/Csv
             $csv = Reader::createFromPath($csvForm["csv"]->getData())->setHeaderOffset(0);
 
-            # La variable $etl va recevoir le retour de la fonction etl (un tableau) situé dans la classe Etl
-            # avec comme paramètre la variable $csv, l'attribut entityManager ainsi que l'attribut markRepository
+            # La variable $etl va recevoir le retour de la fonction etl (un tableau) situé dans la classe  				# Etl avec comme paramètre la variable $csv, l'attribut entityManager ainsi que l'attribut 					# markRepository
             $etl = Etl::etl($csv, $this->entityManager, $this->customerRepository, $this->markRepository);
 
             # Si la clé isValidColums du tableau $etl est strictement égal à 0
             if ($etl["isValidColumns"] === 0) {
                 # On renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Le fichier csv ne contient pas toutes les colonnes nécessaire à l'insertion dans la base de données");
+                $this->addFlash("error", "Le fichier csv ne contient pas toutes les colonnes nécessaire à 					l'insertion dans la base de données");
             }
             # Si la clé customerExist du tableau $etl est strictement égal à 0
             if ($etl["customerExist"] === 0) {
                 # On renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Un ou plusieurs clients ont déjà été ajouter dans la base de données");
+                $this->addFlash("error", "Un ou plusieurs clients ont déjà été ajouter dans la base de 						données");
             }
             # Si la clé isValidColums du tableau $etl est strictement égal à 0
             if ($etl["isMajor"] === 0) {
                 # On renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Certains clients n'avaient pas l'âge légal (18 ans), ils ont donc pas pu être insérés dans la base de données");
+                $this->addFlash("error", "Certains clients n'avaient pas l'âge légal (18 ans), ils ont donc 				pas pu être insérés dans la base de données");
             }
             # Si la clé isValidColums du tableau $etl est strictement égal à 0
             if ($etl["isValidSize"] === 0) {
                 # On renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Certains clients avaient une taille en centimètre et une taille en inch différentes, ils ont donc pas pu être insérés dans la base de données");
+                $this->addFlash("error", "Certains clients avaient une taille en centimètre et une taille en 				 inch différentes, ils ont donc pas pu être insérés dans la base de données");
             }
             # Si la clé isValidColums du tableau $etl est strictement égal à 0
             if ($etl["isValidCcNumber"] === 0) {
                 # On renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Certain client avait un code de carte crédit identique à un autre client, ils ont donc pas pu être insérés dans la base de données");
+                $this->addFlash("error", "Certain client avait un code de carte crédit identique à un autre 				client, ils ont donc pas pu être insérés dans la base de données");
             }
             # Si la clé isValidColums du tableau $etl est strictement égal à 0
             if ($etl["added"] === 0) {
                 # On renvoie un message flash de type erreur à l'utilisateur
-                $this->addFlash("error", "Tout les clients données dans le fichier était déjà ajouté dans la base de données ou contenait des données invalides");
+                $this->addFlash("error", "Tout les clients données dans le fichier était déjà ajouté dans la 				 base de données ou contenait des données invalides");
             }
             # Si la clé added du tableau $etl est strictement égal à 1
             if ($etl["added"] === 1) {
@@ -1301,7 +1315,7 @@ Suite à l'envoi du formulaire par le client, Le contrôleur <code>IndexControll
                 # valeurs de l'attribut entityManager
                 $this->entityManager->flush();
                 # On renvoie un message flash de type success à l'utilisateur
-                $this->addFlash("success", "Les clients avec des données valides ont bien été ajouté à la base de données");
+                $this->addFlash("success", "Les clients avec des données valides ont bien été ajouté à la 					base de données");
                 # On redirige l'utilisateur sur la route 'admin_show_customers'
                 return $this->redirectToRoute("admin_show_customers");
             }
@@ -1342,7 +1356,7 @@ class Etl
      * @param $data
      */
     private function addCustomers($entityManager, $data, $markRepository){
-        # Déclaration des arguments (valeur) pour l"entité Customer avec comme valeur les données envoyé par $data
+        # Déclaration des arguments (valeur) pour l"entité Customer avec comme valeur les données envoyé par 		 # $data
         $customer = new Customer();
         $customer->setGender($data["gender"]);
         $customer->setTitle($data["title"]);
@@ -1362,7 +1376,7 @@ class Etl
         $customer->setCentimeters($data["centimeters"]);
         $customer->setKilograms($data["kilograms"]);
         $explodeVehicle = \explode(" ", $data["vehicle"]);
-        # Déclaration des arguments (valeur) pour l"entité Vehicle avec comme valeur les données envoyé par $data
+        # Déclaration des arguments (valeur) pour l"entité Vehicle avec comme valeur les données envoyé par 		# $data
         $vehicle = new Vehicle();
         $vehicle->setYear($explodeVehicle[0]);
         $vehicle->setModel($explodeVehicle[2]);
@@ -1400,7 +1414,7 @@ class Etl
 
         # On vérifie que l'entête du fichier Csv reçue est bien valide
         if(Csv::isValidCsvHeader($csv->getHeader())){
-            # On lit tout le fichier csv avec la fonction getRecords provenant de la librairie PHP-League/Csv
+            # On lit tout le fichier csv avec la fonction getRecords provenant de la librairie 							# PHP-League/Csv
             foreach($csv->getRecords() as $data){
                 $data = array_change_key_case($data, CASE_LOWER);
                 # On vérifie que le client possède un code de carte bleu UNIQUE
@@ -1409,7 +1423,7 @@ class Etl
                     if (Verification::estAdulte($data["birthday"])) {
                         # On vérifie que le client possède une donnée 'feetinches'
                         if (array_key_exists("feetinches", $data)) {
-                            # Si telle est le cas, on compare sa taille sa taille en feetinches (donnée ["feetinches"]) et en cm (donnée ["centimeters"])
+                            # Si telle est le cas, on compare sa taille sa taille en feetinches (donnée 								# ["feetinches"]) et en cm (donnée ["centimeters"])
                             if (Verification::aUneTailleValide($data["feetinches"], $data["centimeters"])) {
                                 # Si le client passe correctement tous ses tests, il est ajouté
                                 (new Etl)->addCustomers($entityManager, $data, $markRepository);
@@ -1418,7 +1432,7 @@ class Etl
                                 $isValidSize = 0;
                             }
                         } else {
-                            if (!in_array($data["ccnumber"], Csv::getDuplicateValueInArray(Csv::getArrayOfCsvCcNumber($csv)))) {
+                            if (!in_array($data["ccnumber"], 																			Csv::getDuplicateValueInArray(Csv::getArrayOfCsvCcNumber($csv)))) {
                                 (new Etl)->addCustomers($entityManager, $data, $markRepository);
                                 $added = 1;
                             } else {
@@ -1436,7 +1450,7 @@ class Etl
             $isValidColumns = 0;
         }
         # Retour de variable pour des messages analytics envoyé par message flash au client
-        return ["isValidColumns" => $isValidColumns, "customerExist" => $customerExist, "isMajor" => $isMajor, "isValidSize" => $isValidSize, "isValidCcNumber" => $isValidCcNumber, "added" => $added];
+        return ["isValidColumns" => $isValidColumns, "customerExist" => $customerExist, "isMajor" => 				$isMajor, "isValidSize" => $isValidSize, "isValidCcNumber" => $isValidCcNumber, "added" => $added];
     }
 
 }
@@ -1457,31 +1471,31 @@ En supplément, dans le controller <code>IndexController</code> <code>\src\Contr
         # On vérifie avec la fonction isGranted de la librairie security du frameWork Symfony
         # si le compte connecté à bien le role admin
         if ($this->isGranted('ROLE_ADMIN')) {
-            # On donne à la variable $entityManager la valeur de retour de la méthode $this->getDoctrine->getManager
+            # On donne à la variable $entityManager la valeur de retour de la méthode $this->getDoctrine-				# >getManager
             $entityManager = $this->getDoctrine()->getManager();
-            # On donne à la variable $customers la valeur de retour de la méthode $entityManager->getRepository(Customer::class)->findAll
+            # On donne à la variable $customers la valeur de retour de la méthode $entityManager-						# >getRepository(Customer::class)->findAll
             $customers = $entityManager->getRepository(Customer::class)->findAll();
-            # On donne à la variable $mark la valeur de retour de la méthode $entityManager->getRepository(Mark::class)->findAll
+            # On donne à la variable $mark la valeur de retour de la méthode $entityManager-							# >getRepository(Mark::class)->findAll
             $mark = $entityManager->getRepository(Mark::class)->findAll();
-            # On donne à la variable $vehicle la valeur de retour de la méthode $entityManager->getRepository(Vehicle::class)->findAll
+            # On donne à la variable $vehicle la valeur de retour de la méthode $entityManager-							# >getRepository(Vehicle::class)->findAll
             $vehicle = $entityManager->getRepository(Vehicle::class)->findAll();
             # On lit chaque valeur du tableau $customers
             foreach ($customers as $value) {
-                # On notifie doctrine avec la méthode remove en lui disant que l'on voudrait supprimer chaque valeur donnée par la variable $value
+                # On notifie doctrine avec la méthode remove en lui disant que l'on voudrait supprimer 						# chaque valeur donnée par la variable $value
                 $entityManager->remove($value);
                 # Avec la méthode flush de doctrine, on supprime chaque valeur donnée par la variable $value
                 $entityManager->flush($value);
             }
             # On lit chaque valeur du tableau $customers
             foreach ($vehicle as $value) {
-                # On notifie doctrine avec la méthode remove en lui disant que l'on voudrait supprimer chaque valeur donnée par la variable $value
+                # On notifie doctrine avec la méthode remove en lui disant que l'on voudrait supprimer 						# chaque valeur donnée par la variable $value
                 $entityManager->remove($value);
                 # Avec la méthode flush de doctrine, on supprime chaque valeur donnée par la variable $value
                 $entityManager->flush($value);
             }
             # On lit chaque valeur du tableau $customers
             foreach ($mark as $value) {
-                # On notifie doctrine avec la méthode remove en lui disant que l'on voudrait supprimer chaque valeur donnée par la variable $value
+                # On notifie doctrine avec la méthode remove en lui disant que l'on voudrait supprimer 						# chaque valeur donnée par la variable $value
                 $entityManager->remove($value);
                 # Avec la méthode flush de doctrine, on met à jour notre base de données
                 $entityManager->flush($value);
@@ -1500,9 +1514,11 @@ En supplément, dans le controller <code>IndexController</code> <code>\src\Contr
     }
 ````
 
+<div style="page-break-after: always"></div>
+
 # Evil-User-Story 
 
-### "En tant que personne malveillante, je veux avoir accès à la base de données afin d'avoir le login et le mot de passe du compte administrateur de l'application Vetux-Line"
+#### "En tant que personne malveillante, je veux avoir accès à la base de données afin d'avoir le login et le mot de passe du compte administrateur de l'application Vetux-Line"
 
 En tant que développeur, afin d'empêcher', les personnes malveillantes qui souhaitent à partir de la base de données accéder au compte administrateur de l'application Vetux-Line, chaque compte créé aura un mot de passe crypté grâce à la classe <code>UserPasswordEncoderInterface</code>. En effet, la classe <code>UserPasswordEncoderInterface</code> possède la fonction <code>encodePassword</code> qui permet d'encoder le mot de passe afin qu'il ne soit plus en clair. Dans mon projet, l'utilisateur est manuellement créé dans le fichier <code>AppFixtures</code>.
 
@@ -1537,7 +1553,7 @@ class AppFixtures extends Fixture
         # Appel de la méthode setUsername avec en paramètre la chaine de
         # caractère root de l'objet référencé par user
         $user->setUsername("root");
-        # Appel de la méthode setPassword avec en paramètre l'attribut passwordEncoder et avec comme paramètre la fonction encodePassword($user, "sio"));
+        # Appel de la méthode setPassword avec en paramètre l'attribut passwordEncoder et avec comme 				# paramètre la fonction encodePassword($user, "sio"));
         $user->setPassword($this->passwordEncoder->encodePassword($user, "sio"));
         # On notifie doctrine avec la méthode persist en lui disant que
         # l'on voudrait ajouter les valeurs que contient la variable $user
@@ -1555,15 +1571,47 @@ Dans la table <code>admin</code> de ma base de données, le mot de passe du comp
 
 La personne malveillante même en réussissant à récupérer le login et le mot de passe entrée dans la base de donnée ne pourra donc pas avoir un accès à l'application. 
 
-### "En tant que personne malveillante, je veux utiliser la barre de navigation afin d'avoir accès aux différentes routes de l'application Vetux-line sans avoir besoin de me connecter"
+#### "En tant que personne malveillante, je veux utiliser la barre de navigation afin d'avoir accès aux différentes routes de l'application Vetux-line sans avoir besoin de me connecter"
 
 En tant que dévéloppeur, afin d'empêcher', les personnes malveillantes qui souhaitent à partir de la barre de navigation accéder aux différentes routes de l'application Vetux-Line sans être connecté, le controller <code>IndexController</code> qui appelle chaque route de l'application possède l'annotation <code>@IsGranted("ROLE_ADMIN")</code>. Cette annotation permet de restreindre l'accès à tous les utilisateurs qui ne sont pas connecté ou qui ne possède pas le rôle <code>ROLE_ADMIN</code> aux différentes routes du controller. La personne malveillante, en essayant de se connecter à la route <code>admin/fusion</code> par exemple, ne va pas pouvoir y accéder, car elle sera directement redirigée sur la page de connexion.
 
 Vidéo de démonstration : [https://youtu.be/DO1L1NVX6XI](https://youtu.be/DO1L1NVX6XI)
 
-### "En tant que personne malveillante, je veux utiliser le compte connecter à la base de données de l'application vetux-line afin d'avoir un accès aux autres bases de données du compte"
+#### "En tant que personne malveillante, je veux utiliser le compte connecter à la base de données de l'application vetux-line afin d'avoir un accès aux autres bases de données du compte"
 
 En tant que développeur, afin d'empêcher les personnes malveillantes qui souhaitent à partir du compte connecter à la base de données de l'application avoir un accès à toutes les autres bases de données. À la création de la base de données vetuxline, j'ai créé un compte nommé VetuxLine qui aura uniquement les droits sur cette base de données. Une personne malveillante qui utilisera le compte, aura donc seulement les droits de modification sur la base vetuxline et aucune autre base de données.
+
+#### "En tant que personne malveillante, je veux uploader des fichiers avec une autre extension que celle demandée afin de faire planter le serveur"
+
+En tant que développeur, afin d'empêcher les personnes malveillantes qui souhaitent uploader des fichiers avec des extensions autre que .csv afin de faire planter le serveur, j'ai mit en place dans les différents fichier de formulaire qui demande un fichier (<code>EtlCsvForm, InvalidCsvForm, MergeCsvForm </code>)  un système de <code>type Multipurpose Internet Mail Extensions</code>(<code>mimeTypes</code>) qui aura pour but d'indiquer le format du fichier demandé.
+
+```php
+->add('csv1', FileType::class, [
+    "label" => "CSV 1",
+    "constraints" => [
+        new NotBlank(),
+        new File([
+            'mimeTypes' => [
+                'text/x-csv',
+                'text/csv',
+                'application/x-csv',
+                'application/csv',],
+    ]
+```
+
+Suite à cela dans le contrôleur <code>IndexController</code> , plus précisément dans la fonction <code>merge</code> si  c'est la route <code>admin/fusion</code> qui est demandée, nous allons vérifier avec l'exécution conditionnelle <code>if</code> si le formulaire a été envoyé avec la fonction <code>isSubmitted</code> et si le format des fichiers reçu est bien le format demandé avec la fonction <code>isValid</code>.
+
+```php
+if ($csvMergeForm->isSubmitted() && $csvMergeForm->isValid()) {
+```
+
+Si l'exécution conditionnel répond <code>false</code>, cela veut dire que le format du fichier envoyé n'est pas le format attendu, l'utilisateur recevra une réponse d'erreur lui expliquant que seuls les fichiers Csv sont autorisés.
+
+```php
+"mimeTypesMessage" => "Seul les fichiers Csv sont autorisées !"
+```
+
+<div style="page-break-after: always"></div>
 
 # Documentation
 
