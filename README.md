@@ -7,7 +7,7 @@ Niveau : Deuxième année de BTS SIO SLAM
 
 Prérequis : PHP 7 ou supérieur, Composer, FrameWork Symfony, Serveur Apache/MySQL.
 
-Projet effectué du lundi 11 octobre 2021, au dimanche 31 octobre 2021 par Yannick MIDEY.
+Projet effectué du lundi 11 octobre 2021, au dimanche 31 octobre 2021 par y.midey.
 
 # Liens dépôts 
 
